@@ -13,3 +13,8 @@
 # Ignore paths that contain user-generated content.
 /web/sites/*/files/
 /web/sites/*/private/
+
+# Ignore contributed code.
+/web/themes/contrib/
+/web/modules/contrib/
+/web/profiles/contrib/
