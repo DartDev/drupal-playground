@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="dp_custom">
+  <description>Custom PHP CodeSniffer configuration.</description>
+
+  <!-- By default, warnings and errors cause an exception. -->
+  <!-- <config name="ignore_warnings_on_exit" value="0" /> -->
+  <!-- <config name="ignore_errors_on_exit" value="0" /> -->
+
+  <!-- Ignored directories. -->
+  <exclude-pattern>*/node_modules/*</exclude-pattern>
+  <exclude-pattern>*/vendor/*</exclude-pattern>
+
+  <!-- Ignored extensions. -->
+  <!-- @see https://www.drupal.org/node/2867601#comment-12075633 -->
+  <!-- <arg name="ignore" value="*.css,*.md,*.txt,*.png,*.gif,*.jpeg,*.jpg,*.svg,*.js,*.map"/> -->
+
+  <!-- Use colors in output. -->
+  <arg name="colors"/>
+  <!-- Show progress. -->
+  <arg value="p"/>
+
+  <!-- Include all Drupal sniffs and hand-picked collection of Slevomat sniffs. -->
+  <!-- The only reason these may change is if we explicitly update the drupal/coder stack. -->
+  <!-- In curated projects such an update is organized and tested locally, and should not affect the pipeline. -->
+  <rule ref="Drupal"/>
+  <rule ref="DrupalPractice"/>
+
+  <rule ref="SlevomatCodingStandard.TypeHints.UselessConstantTypeHint"/>
+  <rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat"/>
+
+  <rule ref="SlevomatCodingStandard.Exceptions.DisallowNonCapturingCatch"/>
+
+  <rule ref="SlevomatCodingStandard.Classes.ClassStructure">
+    <exclude name="SlevomatCodingStandard.Classes.ClassStructure.IncorrectGroupOrder"/>
+  </rule>
+
+  <rule ref="SlevomatCodingStandard.Classes.DisallowConstructorPropertyPromotion"/>
+  <rule ref="SlevomatCodingStandard.Classes.DisallowLateStaticBindingForConstants"/>
+  <rule ref="SlevomatCodingStandard.Classes.ForbiddenPublicProperty"/>
+  <rule ref="SlevomatCodingStandard.Classes.UselessLateStaticBinding"/>
+
+  <rule ref="SlevomatCodingStandard.ControlStructures.DisallowContinueWithoutIntegerOperandInSwitch"/>
+  <rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceOperator"/>
+  <rule ref="SlevomatCodingStandard.ControlStructures.RequireNullCoalesceEqualOperator"/>
+
+  <rule ref="SlevomatCodingStandard.Functions.StrictCall"/>
+  <rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
+
+  <rule ref="SlevomatCodingStandard.PHP.DisallowDirectMagicInvokeCall"/>
+
+  <rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators"/>
+  <rule ref="SlevomatCodingStandard.Operators.RequireOnlyStandaloneIncrementAndDecrementOperators"/>
+  <rule ref="SlevomatCodingStandard.Operators.RequireCombinedAssignmentOperator"/>
+
+  <rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure"/>
+
+  <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+    <properties>
+      <property name="searchAnnotations" value="true"/>
+    </properties>
+  </rule>
+
+  <rule ref="SlevomatCodingStandard.Namespaces.UseFromSameNamespace"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.UselessAlias"/>
+
+  <rule ref="SlevomatCodingStandard.PHP.UselessParentheses"/>
+  <rule ref="SlevomatCodingStandard.PHP.OptimizedFunctionsWithoutUnpacking"/>
+  <rule ref="SlevomatCodingStandard.PHP.UselessSemicolon"/>
+
+  <rule ref="SlevomatCodingStandard.Variables.DuplicateAssignmentToVariable"/>
+
+  <rule ref="SlevomatCodingStandard.Variables.UnusedVariable">
+    <properties>
+      <property name="ignoreUnusedValuesWhenOnlyKeysAreUsedInForeach" value="true"/>
+    </properties>
+  </rule>
+
+  <rule ref="SlevomatCodingStandard.Variables.UselessVariable"/>
+
+  <rule ref="SlevomatCodingStandard.Exceptions.DeadCatch"/>
+
+  <rule ref="SlevomatCodingStandard.Arrays.MultiLineArrayEndBracketPlacement"/>
+  <rule ref="SlevomatCodingStandard.Arrays.SingleLineArrayWhitespace"/>
+  <rule ref="SlevomatCodingStandard.Arrays.TrailingArrayComma"/>
+
+  <rule ref="SlevomatCodingStandard.Classes.DisallowMultiConstantDefinition"/>
+  <rule ref="SlevomatCodingStandard.Classes.DisallowMultiPropertyDefinition"/>
+  <rule ref="SlevomatCodingStandard.Classes.ModernClassNameReference"/>
+  <rule ref="SlevomatCodingStandard.Classes.TraitUseDeclaration"/>
+
+  <rule ref="SlevomatCodingStandard.ControlStructures.LanguageConstructWithParentheses"/>
+  <rule ref="SlevomatCodingStandard.ControlStructures.NewWithParentheses"/>
+  <rule ref="SlevomatCodingStandard.ControlStructures.RequireNullSafeObjectOperator"/>
+  <rule ref="SlevomatCodingStandard.ControlStructures.RequireSingleLineCondition"/>
+  <rule ref="SlevomatCodingStandard.ControlStructures.RequireShortTernaryOperator"/>
+  <rule ref="SlevomatCodingStandard.ControlStructures.DisallowYodaComparison"/>
+
+  <rule ref="SlevomatCodingStandard.Functions.ArrowFunctionDeclaration"/>
+  <rule ref="SlevomatCodingStandard.Functions.DisallowEmptyFunction"/>
+
+  <rule ref="SlevomatCodingStandard.Namespaces.AlphabeticallySortedUses"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.RequireOneNamespaceInFile"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.NamespaceDeclaration"/>
+
+  <rule ref="SlevomatCodingStandard.Numbers.DisallowNumericLiteralSeparator"/>
+
+  <rule ref="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
+
+  <rule ref="SlevomatCodingStandard.PHP.ShortList"/>
+  <rule ref="SlevomatCodingStandard.PHP.TypeCast"/>
+
+  <rule ref="SlevomatCodingStandard.Whitespaces.DuplicateSpaces">
+    <properties>
+      <property name="ignoreSpacesBeforeAssignment" value="true"/>
+      <property name="ignoreSpacesInAnnotation" value="true"/>
+      <property name="ignoreSpacesInComment" value="true"/>
+      <property name="ignoreSpacesInParameters" value="false"/>
+      <property name="ignoreSpacesInMatch" value="false"/>
+    </properties>
+  </rule>
+
+  <rule ref="SlevomatCodingStandard.TypeHints.NullableTypeForNullDefaultValue"/>
+
+  <rule ref="SlevomatCodingStandard.Namespaces.DisallowGroupUse"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.MultipleUsesPerLine"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.UseDoesNotStartWithBackslash"/>
+  <rule ref="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation"/>
+
+  <rule ref="SlevomatCodingStandard.Commenting.DeprecatedAnnotationDeclaration"/>
+  <rule ref="SlevomatCodingStandard.Commenting.DisallowCommentAfterCode"/>
+  <rule ref="SlevomatCodingStandard.Commenting.EmptyComment"/>
+  <rule ref="SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration"/>
+  <rule ref="SlevomatCodingStandard.Commenting.UselessFunctionDocComment"/>
+
+  <rule ref="SlevomatCodingStandard.ControlStructures.UselessIfConditionWithReturn"/>
+  <rule ref="SlevomatCodingStandard.ControlStructures.UselessTernaryOperator"/>
+</ruleset>
