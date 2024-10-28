@@ -29,7 +29,8 @@
         "drupal/redirect": "^1.10",
         "drupal/token": "^1.15",
         "drupal/twig_tweak": "^3.4",
-        "drush/drush": "^13.0"
+        "drush/drush": "^13.0",
+        "phpoffice/phpspreadsheet": "^3.3"
     },
     "require-dev": {
         "drupal/coder": "^8.3"
