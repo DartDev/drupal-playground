@@ -13,3 +13,15 @@ the Migrate API and its ecosystem of contributed modules, which provide an extra
 of convenient features, such as the ability to perform a rollback.
 
 Find out more: https://www.drupal.org/docs/drupal-apis/migrate-api
+
+## How To Use
+
+Visit one of the import forms shipped with the module and submit it.
+
+## Structure
+
+Unlike older guides and tutorials on the subject of batch jobs which can be
+discovered out there - we are going to use a slightly different approach,
+based on the static Batch classes.
+
+A basic example is included with the module: `src/Batch/DefaultBatch.php`
