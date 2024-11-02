@@ -1,0 +1,7 @@
+dp_import_solutions.csv:
+  path: '/admin/import-solutions/import-csv'
+  defaults:
+    _title: 'Form: Import CSV'
+    _form: 'Drupal\dp_import_solutions\Form\ImportCSVForm'
+  requirements:
+    _permission: 'access administration pages'
