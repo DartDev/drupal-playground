@@ -22,13 +22,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ImportCSVForm extends FormBase {
 
   /**
-   * Batch builder utility.
-   *
-   * @var \Drupal\Core\Batch\BatchBuilder
-   */
-  protected $batchBuilder;
-
-  /**
    * The file system service.
    *
    * @var \Drupal\Core\File\FileSystemInterface
@@ -51,10 +44,6 @@ class ImportCSVForm extends FormBase {
    *   The extension path resolver.
    */
   public function __construct(FileSystemInterface $file_system, ExtensionPathResolver $extension_path_resolver) {
-    // Technically speaking it is not necessary to instantiate a utility class
-    // like BatchBuilder() in the constructor, as it can be done directly in
-    // the calling method. We are doing it to declare all major dependencies.
-    $this->batchBuilder = new BatchBuilder();
     $this->fileSystem = $file_system;
     $this->extensionPathResolver = $extension_path_resolver;
   }
@@ -190,23 +179,25 @@ class ImportCSVForm extends FormBase {
    * Configures and sets a batch operation.
    */
   protected function executeBatch(array $rows): void {
+    $batch_builder = new BatchBuilder();
+
     // These properties are set by default when the batch object is constructed.
     // This is a good place to customize them according to your specifics.
-    $this->batchBuilder
+    $batch_builder
       ->setTitle($this->t('Processing CSV file'))
       ->setInitMessage($this->t('Initializing.'))
       ->setProgressMessage($this->t('Completed @current of @total.'))
       ->setErrorMessage($this->t('An error has occurred.'));
 
     $batch_filename = $this->extensionPathResolver->getPath('module', 'dp_import_solutions') . '/src/Batch/ImportCSVBatch.php';
-    $this->batchBuilder->setFile($batch_filename);
+    $batch_builder->setFile($batch_filename);
 
     $batch_operation = [
       'Drupal\dp_import_solutions\Batch\ImportCSVBatch',
       'batchProcess',
     ];
     $batch_arguments = [$rows];
-    $this->batchBuilder->addOperation($batch_operation, $batch_arguments);
+    $batch_builder->addOperation($batch_operation, $batch_arguments);
 
     // The batch finalization callback is defined separately and can point to
     // a different location, allowing for easy code reuse.
@@ -214,9 +205,9 @@ class ImportCSVForm extends FormBase {
       'Drupal\dp_import_solutions\Batch\DefaultBatch',
       'batchFinished',
     ];
-    $this->batchBuilder->setFinishCallback($batch_finished);
+    $batch_builder->setFinishCallback($batch_finished);
 
-    batch_set($this->batchBuilder->toArray());
+    batch_set($batch_builder->toArray());
   }
 
 }
