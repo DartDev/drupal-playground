@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Drupal\dp_import_solutions\Batch;
 
+use Drupal\Core\Entity\EntityStorageException;
+use Drupal\Core\Entity\EntityStorageInterface;
+
 /**
  * Provides static Batch methods for basic CSV import.
  */
@@ -34,19 +37,14 @@ class ImportCSVBatch {
       $rows = $context['sandbox']['items'][$current_chunk];
 
       foreach ($rows as $row) {
-
-        $node = $node_storage->create([
-          'type' => 'article',
-          'title' => $row[0],
-          'body' => [
-            'value' => $row[1],
-            'format' => 'plain_text',
-          ],
-          'status' => 1,
-          'uid' => 1,
-        ]);
-
-        $node->save();
+        try {
+          static::createNode($node_storage, $row);
+        }
+        catch (EntityStorageException $ex) {
+          $message = $ex->getMessage();
+          \Drupal::service('messenger')->addError($message);
+          \Drupal::service('logger.factory')->get('dp_import_solutions')->error($message);
+        }
 
         $context['sandbox']['progress']++;
 
@@ -64,6 +62,31 @@ class ImportCSVBatch {
     if ($context['sandbox']['progress'] !== $context['sandbox']['max']) {
       $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
     }
+  }
+
+  /**
+   * Creates a node from the passed array.
+   *
+   * @param \Drupal\Core\Entity\EntityStorageInterface $node_storage
+   *   Node storage.
+   * @param array $row
+   *   Array with node data.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   */
+  public static function createNode(EntityStorageInterface $node_storage, array $row): void {
+    $node = $node_storage->create([
+      'type' => 'article',
+      'title' => $row[0],
+      'body' => [
+        'value' => $row[1],
+        'format' => 'plain_text',
+      ],
+      'status' => 1,
+      'uid' => 1,
+    ]);
+
+    $node->save();
   }
 
 }
