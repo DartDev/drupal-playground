@@ -9,14 +9,14 @@ use Drupal\KernelTests\KernelTestBase;
 use Drupal\dp_import_solutions\Batch\ImportCSVBatch;
 use Drupal\dp_import_solutions\Form\ImportCSVForm;
 use Drupal\file\Entity\File;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
  * Tests the Import CSV form.
  *
  * @coversDefaultClass \Drupal\dp_import_solutions\Form\ImportCSVForm
- *
- * @group dp_import_solutions
  */
+#[Group('dp_import_solutions')]
 class ImportCSVFormTest extends KernelTestBase {
 
   /**
