@@ -18,3 +18,7 @@
 /web/themes/contrib/
 /web/modules/contrib/
 /web/profiles/contrib/
+
+# Ignore testing files.
+/web/phpunit.xml
+/web/sites/simpletest/
