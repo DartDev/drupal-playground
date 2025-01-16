@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * @file
+ * Handles hooks and theming functionalities for the duck entity type.
+ */
+
+declare(strict_types=1);

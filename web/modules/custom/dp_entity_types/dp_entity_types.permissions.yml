@@ -1,0 +1,14 @@
+administer dp_duck types:
+  title: 'Administer duck types'
+  description: 'Maintain the duck types, manage basic configurations and fields.'
+  restrict access: true
+
+create dp_duck:
+  title: 'Create duck'
+view dp_duck:
+  title: 'View duck'
+edit dp_duck:
+  title: 'Edit duck'
+delete dp_duck:
+  title: 'Delete duck'
+

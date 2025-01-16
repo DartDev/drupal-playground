@@ -1,0 +1,5 @@
+name: 'Entity Types'
+type: module
+description: 'Provides custom entity types for the Drupal Playground project.'
+package: Custom
+core_version_requirement: ^11
