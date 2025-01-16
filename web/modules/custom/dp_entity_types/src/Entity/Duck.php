@@ -145,6 +145,36 @@ final class Duck extends RevisionableContentEntityBase implements DuckInterface 
       ])
       ->setDisplayConfigurable('view', TRUE);
 
+    // Define a custom boolean field to always appear on each duck entity.
+    //
+    // The BaseFieldDefinition statements define both of the Database Schema
+    // and the UI component in the administration theme.
+    //
+    // While parts of these definitions can be later adjusted, it must be
+    // handled with care, as the Database Schema will remain unchanged.
+    $fields['can_quack'] = BaseFieldDefinition::create('boolean')
+      ->setRevisionable(TRUE)
+      ->setLabel(t('Can Quack'))
+      ->setDefaultValue(TRUE)
+      ->setSetting('on_label', 'Yes')
+      ->setDisplayOptions('form', [
+        'type' => 'boolean_checkbox',
+        'settings' => [
+          'display_label' => TRUE,
+        ],
+        'weight' => 5,
+      ])
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayOptions('view', [
+        'type' => 'boolean',
+        'label' => 'above',
+        'weight' => 5,
+        'settings' => [
+          'format' => 'enabled-disabled',
+        ],
+      ])
+      ->setDisplayConfigurable('view', TRUE);
+
     $fields['description'] = BaseFieldDefinition::create('text_long')
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE)
