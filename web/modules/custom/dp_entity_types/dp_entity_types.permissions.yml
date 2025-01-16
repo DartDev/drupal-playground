@@ -12,3 +12,9 @@ edit dp_duck:
 delete dp_duck:
   title: 'Delete duck'
 
+view dp_duck revision:
+  title: 'View duck revision'
+revert dp_duck revision:
+  title: 'Revert duck revision'
+delete dp_duck revision:
+  title: 'Delete duck revision'
