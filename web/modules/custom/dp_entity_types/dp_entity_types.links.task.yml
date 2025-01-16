@@ -1,0 +1,21 @@
+entity.dp_duck.view:
+  title: 'View'
+  route_name: entity.dp_duck.canonical
+  base_route: entity.dp_duck.canonical
+
+entity.dp_duck.edit_form:
+  title: 'Edit'
+  route_name: entity.dp_duck.edit_form
+  base_route: entity.dp_duck.canonical
+
+entity.dp_duck.delete_form:
+  title: 'Delete'
+  route_name: entity.dp_duck.delete_form
+  base_route: entity.dp_duck.canonical
+  weight: 10
+
+entity.dp_duck.collection:
+  title: 'Ducks'
+  route_name: entity.dp_duck.collection
+  base_route: system.admin_content
+  weight: 100
