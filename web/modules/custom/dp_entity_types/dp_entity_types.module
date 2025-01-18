@@ -6,3 +6,33 @@
  */
 
 declare(strict_types=1);
+
+use Drupal\Core\Render\Element;
+
+/**
+ * Implements hook_theme().
+ */
+function dp_entity_types_theme(): array {
+  return [
+    'dp_duck' => ['render element' => 'elements'],
+  ];
+}
+
+/**
+ * Prepares variables for duck templates.
+ *
+ * Default template: dp-duck.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the duck information and any
+ *     fields attached to the entity.
+ *   - attributes: HTML attributes for the containing element.
+ */
+function template_preprocess_dp_duck(array &$variables): void {
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}

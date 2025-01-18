@@ -1,0 +1,23 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a duck entity.
+ *
+ * Available variables:
+ * - content: Contains all elements of the given content item. Specific elements can be separately
+ *   rendered by targetting them directly, such as 'content.label'.
+ * - attributes: HTML attributes for the container element.
+ *
+ * @see template_preprocess_dp_duck()
+ */
+#}
+<article{{ attributes }}>
+  {% if view_mode != 'full' %}
+    {{ title_prefix }}
+    {{ title_suffix }}
+  {% endif %}
+
+  {% if content %}
+    {{- content -}}
+  {% endif %}
+</article>
