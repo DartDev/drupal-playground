@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - dp_entity_types
+id: dp_duck_delete_action
+label: 'Delete ducks'
+type: dp_duck
+plugin: entity:delete_action:dp_duck
+configuration: {  }

@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - dp_entity_types
+id: dp_duck_save_action
+label: 'Save ducks'
+type: dp_duck
+plugin: entity:save_action:dp_duck
+configuration: {  }
