@@ -1,0 +1,11 @@
+dp_duck.type_add:
+  title: 'Add duck type'
+  route_name: entity.dp_duck_type.add_form
+  appears_on:
+    - entity.dp_duck_type.collection
+
+dp_duck.add_page:
+  title: 'Add duck'
+  route_name: entity.dp_duck.add_page
+  appears_on:
+    - entity.dp_duck.collection

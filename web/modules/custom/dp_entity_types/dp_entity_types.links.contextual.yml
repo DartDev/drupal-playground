@@ -1,0 +1,10 @@
+entity.dp_duck.edit_form:
+  title: 'Edit'
+  route_name: entity.dp_duck.edit_form
+  group: dp_duck
+
+entity.dp_duck.delete_form:
+  title: 'Delete'
+  route_name: entity.dp_duck.delete_form
+  group: dp_duck
+  weight: 10

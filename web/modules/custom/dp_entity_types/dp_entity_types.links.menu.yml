@@ -1,0 +1,13 @@
+entity.dp_duck_type.collection:
+  title: 'Duck types'
+  parent: system.admin_structure
+  route_name: entity.dp_duck_type.collection
+  description: 'Manage the Duck types.'
+  weight: -100
+
+entity.dp_duck.collection:
+  title: 'Ducks'
+  parent: system.admin_content
+  route_name: entity.dp_duck.collection
+  description: 'List of ducks.'
+  weight: -100
