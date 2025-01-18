@@ -1,0 +1,17 @@
+dp_entity_types.dp_duck_type.*:
+  type: config_entity
+  label: 'Duck type config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    description:
+      type: text
+      label: 'Description'
+      nullable: true
+      constraints:
+        NotBlank:
+          allowNull: true
