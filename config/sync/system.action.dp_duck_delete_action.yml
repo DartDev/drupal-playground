@@ -1,0 +1,13 @@
+uuid: 52fd420b-6ade-4475-b52f-4853144466d5
+langcode: en
+status: true
+dependencies:
+  module:
+    - dp_entity_types
+_core:
+  default_config_hash: V7lXkF89dw69pNzAmjt-4xFl-O1Tl0SH6KoPujJyHzA
+id: dp_duck_delete_action
+label: 'Delete ducks'
+type: dp_duck
+plugin: 'entity:delete_action:dp_duck'
+configuration: {  }

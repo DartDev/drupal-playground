@@ -1,0 +1,13 @@
+uuid: db04ca7f-54ed-474e-89fd-4f4b2430dc76
+langcode: en
+status: true
+dependencies:
+  module:
+    - dp_entity_types
+_core:
+  default_config_hash: '-uSb6qLQ6syvA6o435Zn9fStoI3wah1nQh4_RVLCZHA'
+id: dp_duck_save_action
+label: 'Save ducks'
+type: dp_duck
+plugin: 'entity:save_action:dp_duck'
+configuration: {  }
