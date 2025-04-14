@@ -8,6 +8,7 @@
 declare(strict_types=1);
 
 use Drupal\Core\Render\Element;
+use Drupal\user\UserInterface;
 
 /**
  * Implements hook_theme().
@@ -34,5 +35,73 @@ function template_preprocess_dp_duck(array &$variables): void {
 
   foreach (Element::children($variables['elements']) as $key) {
     $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_user_cancel().
+ */
+function dp_entity_types_user_cancel($edit, UserInterface $account, $method): void {
+  switch ($method) {
+    // Unpublish all ducks.
+    case 'user_cancel_block_unpublish':
+      $storage = \Drupal::entityTypeManager()->getStorage('dp_duck');
+
+      $dp_duck_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->condition('status', 1)
+        ->accessCheck(FALSE)
+        ->execute();
+
+      foreach ($storage->loadMultiple($dp_duck_ids) as $dp_duck) {
+        $dp_duck->set('status', FALSE)->save();
+      }
+      break;
+
+    // Switch all ducks to the anonymous user.
+    case 'user_cancel_reassign':
+      $storage = \Drupal::entityTypeManager()->getStorage('dp_duck');
+
+      $dp_duck_ids = $storage->getQuery()
+        ->condition('uid', $account->id())
+        ->accessCheck(FALSE)
+        ->execute();
+
+      foreach ($storage->loadMultiple($dp_duck_ids) as $dp_duck) {
+        $dp_duck->setOwnerId(0)->save();
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete() for user entities.
+ *
+ * Fires before the user is completely deleted.
+ */
+function dp_entity_types_user_predelete(UserInterface $account): void {
+  // Get the entity storage for ducks.
+  $storage = \Drupal::entityTypeManager()->getStorage('dp_duck');
+
+  // Retrieve all ducks that belong to the given user.
+  $dp_duck_ids = $storage->getQuery()
+    ->condition('uid', $account->id())
+    ->accessCheck(FALSE)
+    ->execute();
+
+  // Delete all ducks that belong to the user which is being deleted.
+  $storage->delete(
+    $storage->loadMultiple($dp_duck_ids)
+  );
+
+  // Cleanup all revisions bound to the user as well.
+  $dp_duck_ids = $storage->getQuery()
+    ->allRevisions()
+    ->condition('uid', $account->id())
+    ->accessCheck(FALSE)
+    ->execute();
+
+  foreach (array_keys($dp_duck_ids) as $revision_id) {
+    $storage->deleteRevision($revision_id);
   }
 }
