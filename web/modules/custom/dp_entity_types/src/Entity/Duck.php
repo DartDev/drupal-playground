@@ -58,6 +58,8 @@ use Drupal\user\EntityOwnerTrait;
  *     "label" = "label",
  *     "uuid" = "uuid",
  *     "owner" = "uid",
+ *     "status" = "status",
+ *     "can_quack" = "can_quack",
  *   },
  *   revision_metadata_keys = {
  *     "revision_user" = "revision_uid",
@@ -175,22 +177,6 @@ final class Duck extends RevisionableContentEntityBase implements DuckInterface 
       ])
       ->setDisplayConfigurable('view', TRUE);
 
-    $fields['description'] = BaseFieldDefinition::create('text_long')
-      ->setRevisionable(TRUE)
-      ->setTranslatable(TRUE)
-      ->setLabel(t('Description'))
-      ->setDisplayOptions('form', [
-        'type' => 'text_textarea',
-        'weight' => 10,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayOptions('view', [
-        'type' => 'text_default',
-        'label' => 'above',
-        'weight' => 10,
-      ])
-      ->setDisplayConfigurable('view', TRUE);
-
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
       ->setRevisionable(TRUE)
       ->setTranslatable(TRUE)
@@ -204,13 +190,13 @@ final class Duck extends RevisionableContentEntityBase implements DuckInterface 
           'size' => 60,
           'placeholder' => '',
         ],
-        'weight' => 15,
+        'weight' => 10,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'author',
-        'weight' => 15,
+        'weight' => 10,
       ])
       ->setDisplayConfigurable('view', TRUE);
 
@@ -221,12 +207,12 @@ final class Duck extends RevisionableContentEntityBase implements DuckInterface 
       ->setDisplayOptions('view', [
         'label' => 'above',
         'type' => 'timestamp',
-        'weight' => 20,
+        'weight' => 15,
       ])
       ->setDisplayConfigurable('form', TRUE)
       ->setDisplayOptions('form', [
         'type' => 'datetime_timestamp',
-        'weight' => 20,
+        'weight' => 15,
       ])
       ->setDisplayConfigurable('view', TRUE);
 
