@@ -224,4 +224,11 @@ final class Duck extends RevisionableContentEntityBase implements DuckInterface 
     return $fields;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function isEnabled(): bool {
+    return (bool) $this->get('status')->value;
+  }
+
 }

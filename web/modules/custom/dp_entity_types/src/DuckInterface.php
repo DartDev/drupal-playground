@@ -13,4 +13,12 @@ use Drupal\user\EntityOwnerInterface;
  */
 interface DuckInterface extends ContentEntityInterface, EntityOwnerInterface, EntityChangedInterface {
 
+  /**
+   * Returns the duck status.
+   *
+   * @return bool
+   *   TRUE if the duck is enabled.
+   */
+  public function isEnabled(): bool;
+
 }
