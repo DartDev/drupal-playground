@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Handles hooks for the preconfigured entity types.
+ */
+
+declare(strict_types=1);
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Session\AccountInterface;
+
+/**
+ * Implements hook_entity_access().
+ */
+function dp_entity_types_preconfig_entity_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  // The list of preconfigured duck types from the `config/install` directory.
+  $duck_types = [
+    'heavy_assault',
+    'moral_support',
+  ];
+
+  // Cleanly and explicitly restrict the deletion access on our preconfigured
+  // duck types - they will be automatically deleted on module uninstallation.
+  if ($operation === 'delete' && $entity->getEntityTypeId() === 'dp_duck_type' && in_array($entity->id(), $duck_types, TRUE)) {
+    return AccessResult::forbidden('This duck type cannot be manually deleted.');
+  }
+
+  return AccessResult::neutral();
+}

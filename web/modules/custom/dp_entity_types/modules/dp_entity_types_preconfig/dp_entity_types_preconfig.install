@@ -1,0 +1,27 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for the dp_entity_types_preconfig.
+ */
+
+declare(strict_types=1);
+
+use Drupal\dp_entity_types\Entity\DuckType;
+
+/**
+ * Implements hook_uninstall().
+ */
+function dp_entity_types_preconfig_uninstall(): void {
+  // The list of preconfigured duck types from the `config/install` directory.
+  $duck_types = [
+    'heavy_assault',
+    'moral_support',
+  ];
+
+  // Note that deletion of the entity types doesn't remove the existing content.
+  foreach ($duck_types as $duck_type) {
+    $type = DuckType::load($duck_type);
+    $type?->delete();
+  }
+}

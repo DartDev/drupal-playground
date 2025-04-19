@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: heavy_assault
+label: 'Heavy Assault Duck'
+description: ''
+new_revision: true

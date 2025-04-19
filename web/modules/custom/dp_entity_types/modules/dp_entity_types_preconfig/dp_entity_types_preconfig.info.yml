@@ -1,0 +1,7 @@
+name: 'DP - Entity Types - Preconfigured Types'
+type: module
+description: 'Provides a collection of preconfigured Duck types for illustrative purposes.'
+package: Custom
+core_version_requirement: ^11
+dependencies:
+  - dp_entity_types:dp_entity_types
