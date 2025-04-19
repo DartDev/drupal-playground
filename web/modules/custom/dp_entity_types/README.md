@@ -1,4 +1,4 @@
-# Entity Types
+# DP - Entity Types
 
 ## Introduction
 
@@ -19,3 +19,9 @@ In case of the Duck entity, the status is controlled by a simple checkbox, which
 indicates whether a specific Duck is enabled.
 
 Find out more: https://www.drupal.org/docs/drupal-apis/entity-api
+
+## Sub-Modules
+
+### DP - Entity Types - Preconfigured Types
+
+Provides a collection of example entity types for this module.
