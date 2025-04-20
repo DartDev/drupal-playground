@@ -15,3 +15,6 @@ dp_entity_types.dp_duck_type.*:
       constraints:
         NotBlank:
           allowNull: true
+    new_revision:
+      type: boolean
+      label: 'Always create a new revision by default'
