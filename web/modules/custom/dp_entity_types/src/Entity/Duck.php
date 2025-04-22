@@ -4,85 +4,102 @@ declare(strict_types=1);
 
 namespace Drupal\dp_entity_types\Entity;
 
+use Drupal\content_translation\ContentTranslationHandler;
+use Drupal\Core\Entity\Attribute\ContentEntityType;
+use Drupal\Core\Entity\ContentEntityDeleteForm;
 use Drupal\Core\Entity\EntityChangedTrait;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\EntityViewBuilder;
+use Drupal\Core\Entity\Form\DeleteMultipleForm;
 use Drupal\Core\Entity\RevisionableContentEntityBase;
+use Drupal\Core\Entity\Routing\AdminHtmlRouteProvider;
+use Drupal\Core\Entity\Routing\RevisionHtmlRouteProvider;
+use Drupal\Core\Entity\Sql\SqlContentEntityStorage;
+use Drupal\Core\Entity\Sql\SqlContentEntityStorageSchema;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\dp_entity_types\DuckAccessControlHandler;
 use Drupal\dp_entity_types\DuckInterface;
+use Drupal\dp_entity_types\DuckListBuilder;
+use Drupal\dp_entity_types\Form\DuckForm;
 use Drupal\user\EntityOwnerTrait;
+use Drupal\views\EntityViewsData;
 
 /**
  * Defines the duck entity class.
- *
- * @ContentEntityType(
- *   id = "dp_duck",
- *   label = @Translation("Duck"),
- *   label_collection = @Translation("Ducks"),
- *   label_singular = @Translation("duck"),
- *   label_plural = @Translation("ducks"),
- *   label_count = @PluralTranslation(
- *     singular = "@count duck",
- *     plural = "@count ducks",
- *   ),
- *   bundle_label = @Translation("Duck type"),
- *   handlers = {
- *     "list_builder" = "Drupal\dp_entity_types\DuckListBuilder",
- *     "views_data" = "Drupal\views\EntityViewsData",
- *     "access" = "Drupal\dp_entity_types\DuckAccessControlHandler",
- *     "form" = {
- *       "add" = "Drupal\dp_entity_types\Form\DuckForm",
- *       "edit" = "Drupal\dp_entity_types\Form\DuckForm",
- *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
- *       "delete-multiple-confirm" = "Drupal\Core\Entity\Form\DeleteMultipleForm",
- *       "revision-delete" = \Drupal\Core\Entity\Form\RevisionDeleteForm::class,
- *       "revision-revert" = \Drupal\Core\Entity\Form\RevisionRevertForm::class,
- *     },
- *     "route_provider" = {
- *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
- *       "revision" = \Drupal\Core\Entity\Routing\RevisionHtmlRouteProvider::class,
- *     },
- *   },
- *   base_table = "dp_duck",
- *   data_table = "dp_duck_field_data",
- *   revision_table = "dp_duck_revision",
- *   revision_data_table = "dp_duck_field_revision",
- *   show_revision_ui = TRUE,
- *   translatable = TRUE,
- *   admin_permission = "administer dp_duck types",
- *   entity_keys = {
- *     "id" = "id",
- *     "revision" = "revision_id",
- *     "langcode" = "langcode",
- *     "bundle" = "bundle",
- *     "label" = "label",
- *     "uuid" = "uuid",
- *     "owner" = "uid",
- *     "status" = "status",
- *     "can_quack" = "can_quack",
- *   },
- *   revision_metadata_keys = {
- *     "revision_user" = "revision_uid",
- *     "revision_created" = "revision_timestamp",
- *     "revision_log_message" = "revision_log",
- *   },
- *   links = {
- *     "collection" = "/admin/content/dp-duck",
- *     "add-form" = "/dp-duck/add/{dp_duck_type}",
- *     "add-page" = "/dp-duck/add",
- *     "canonical" = "/dp-duck/{dp_duck}",
- *     "edit-form" = "/dp-duck/{dp_duck}/edit",
- *     "delete-form" = "/dp-duck/{dp_duck}/delete",
- *     "delete-multiple-form" = "/admin/content/dp-duck/delete-multiple",
- *     "revision" = "/dp-duck/{dp_duck}/revision/{dp_duck_revision}/view",
- *     "revision-delete-form" = "/dp-duck/{dp_duck}/revision/{dp_duck_revision}/delete",
- *     "revision-revert-form" = "/dp-duck/{dp_duck}/revision/{dp_duck_revision}/revert",
- *     "version-history" = "/dp-duck/{dp_duck}/revisions",
- *   },
- *   bundle_entity_type = "dp_duck_type",
- *   field_ui_base_route = "entity.dp_duck_type.edit_form",
- * )
  */
+#[ContentEntityType(
+  id: 'dp_duck',
+  label: new TranslatableMarkup('Duck'),
+  label_collection: new TranslatableMarkup('Ducks'),
+  label_singular: new TranslatableMarkup('duck'),
+  label_plural: new TranslatableMarkup('ducks'),
+  entity_keys: [
+    'id' => 'id',
+    'revision' => 'revision_id',
+    'langcode' => 'langcode',
+    'bundle' => 'bundle',
+    'label' => 'label',
+    'uuid' => 'uuid',
+    'owner' => 'uid',
+    'status' => 'status',
+    'can_quack' => 'can_quack',
+  ],
+  handlers: [
+    'storage' => SqlContentEntityStorage::class,
+    'storage_schema' => SqlContentEntityStorageSchema::class,
+    'view_builder' => EntityViewBuilder::class,
+    'access' => DuckAccessControlHandler::class,
+    'views_data' => EntityViewsData::class,
+    'form' => [
+      'default' => DuckForm::class,
+      'add' => DuckForm::class,
+      'edit' => DuckForm::class,
+      'delete' => ContentEntityDeleteForm::class,
+      'delete-multiple-confirm' => DeleteMultipleForm::class,
+    ],
+    'route_provider' => [
+      'html' => AdminHtmlRouteProvider::class,
+      'revision' => RevisionHtmlRouteProvider::class,
+    ],
+    'list_builder' => DuckListBuilder::class,
+    'translation' => ContentTranslationHandler::class,
+  ],
+  links: [
+    'canonical' => '/dp-duck/{dp_duck}',
+    'collection' => '/admin/content/dp-duck',
+    'add-page' => '/dp-duck/add',
+    'add-form' => '/dp-duck/add/{dp_duck_type}',
+    'edit-form' => '/dp-duck/{dp_duck}/edit',
+    'delete-form' => '/dp-duck/{dp_duck}/delete',
+    'delete-multiple-form' => '/admin/content/dp-duck/delete-multiple',
+    'version-history' => '/dp-duck/{dp_duck}/revisions',
+    'revision' => '/dp-duck/{dp_duck}/revision/{dp_duck_revision}/view',
+    'revision-delete-form' => '/dp-duck/{dp_duck}/revision/{dp_duck_revision}/delete',
+    'revision-revert-form' => '/dp-duck/{dp_duck}/revision/{dp_duck_revision}/revert',
+  ],
+  admin_permission: 'administer dp_duck types',
+  collection_permission: 'access dp_duck collection',
+  bundle_entity_type: 'dp_duck_type',
+  bundle_label: new TranslatableMarkup('Duck type'),
+  base_table: 'dp_duck',
+  data_table: 'dp_duck_field_data',
+  revision_table: 'dp_duck_revision',
+  revision_data_table: 'dp_duck_field_revision',
+  translatable: TRUE,
+  show_revision_ui: TRUE,
+  label_count: [
+    'singular' => '@count duck',
+    'plural' => '@count ducks',
+  ],
+  field_ui_base_route: 'entity.dp_duck_type.edit_form',
+  revision_metadata_keys: [
+    'revision_user' => 'revision_uid',
+    'revision_created' => 'revision_timestamp',
+    'revision_log_message' => 'revision_log',
+  ],
+)]
 final class Duck extends RevisionableContentEntityBase implements DuckInterface {
 
   use EntityChangedTrait;
@@ -103,7 +120,6 @@ final class Duck extends RevisionableContentEntityBase implements DuckInterface 
    * {@inheritdoc}
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type): array {
-
     $fields = parent::baseFieldDefinitions($entity_type);
 
     $fields['label'] = BaseFieldDefinition::create('string')
