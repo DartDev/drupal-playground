@@ -5,53 +5,60 @@ declare(strict_types=1);
 namespace Drupal\dp_entity_types\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
+use Drupal\Core\Entity\Attribute\ConfigEntityType;
+use Drupal\Core\Entity\EntityAccessControlHandler;
+use Drupal\Core\Entity\EntityDeleteForm;
+use Drupal\Core\Entity\Routing\AdminHtmlRouteProvider;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\dp_entity_types\DuckTypeInterface;
+use Drupal\dp_entity_types\DuckTypeListBuilder;
+use Drupal\dp_entity_types\Form\DuckTypeForm;
 
 /**
  * Defines the Duck type configuration entity.
- *
- * @ConfigEntityType(
- *   id = "dp_duck_type",
- *   label = @Translation("Duck type"),
- *   label_collection = @Translation("Duck types"),
- *   label_singular = @Translation("duck type"),
- *   label_plural = @Translation("ducks types"),
- *   label_count = @PluralTranslation(
- *     singular = "@count ducks type",
- *     plural = "@count ducks types",
- *   ),
- *   handlers = {
- *     "form" = {
- *       "add" = "Drupal\dp_entity_types\Form\DuckTypeForm",
- *       "edit" = "Drupal\dp_entity_types\Form\DuckTypeForm",
- *       "delete" = "Drupal\Core\Entity\EntityDeleteForm",
- *     },
- *     "list_builder" = "Drupal\dp_entity_types\DuckTypeListBuilder",
- *     "route_provider" = {
- *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
- *     },
- *   },
- *   admin_permission = "administer dp_duck types",
- *   bundle_of = "dp_duck",
- *   config_prefix = "dp_duck_type",
- *   entity_keys = {
- *     "id" = "id",
- *     "label" = "label",
- *   },
- *   links = {
- *     "add-form" = "/admin/structure/dp_duck_types/add",
- *     "edit-form" = "/admin/structure/dp_duck_types/manage/{dp_duck_type}",
- *     "delete-form" = "/admin/structure/dp_duck_types/manage/{dp_duck_type}/delete",
- *     "collection" = "/admin/structure/dp_duck_types",
- *   },
- *   config_export = {
- *     "id",
- *     "label",
- *     "description",
- *     "new_revision",
- *   },
- * )
  */
+#[ConfigEntityType(
+  id: 'dp_duck_type',
+  label: new TranslatableMarkup('Duck type'),
+  label_collection: new TranslatableMarkup('Duck types'),
+  label_singular: new TranslatableMarkup('duck type'),
+  label_plural: new TranslatableMarkup('ducks types'),
+  config_prefix: 'dp_duck_type',
+  entity_keys: [
+    'id' => 'id',
+    'label' => 'label',
+  ],
+  handlers: [
+    'access' => EntityAccessControlHandler::class,
+    'form' => [
+      'add' => DuckTypeForm::class,
+      'edit' => DuckTypeForm::class,
+      'delete' => EntityDeleteForm::class,
+    ],
+    'route_provider' => [
+      'html' => AdminHtmlRouteProvider::class,
+    ],
+    'list_builder' => DuckTypeListBuilder::class,
+  ],
+  links: [
+    'add-form' => '/admin/structure/dp_duck_types/add',
+    'edit-form' => '/admin/structure/dp_duck_types/manage/{dp_duck_type}',
+    'delete-form' => '/admin/structure/dp_duck_types/manage/{dp_duck_type}/delete',
+    'collection' => '/admin/structure/dp_duck_types',
+  ],
+  admin_permission: 'administer dp_duck types',
+  bundle_of: 'dp_duck',
+  label_count: [
+    'singular' => '@count duck type',
+    'plural' => '@count duck types',
+  ],
+  config_export: [
+    'id',
+    'label',
+    'description',
+    'new_revision',
+  ],
+)]
 final class DuckType extends ConfigEntityBundleBase implements DuckTypeInterface {
 
   /**
