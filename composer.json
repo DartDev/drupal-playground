@@ -21,7 +21,6 @@
         "drupal/core-composer-scaffold": "^11.0",
         "drupal/core-recommended": "^11.0",
         "drupal/ctools": "^4.1",
-        "drupal/devel": "^5.3",
         "drupal/entity_reference_revisions": "^1.12",
         "drupal/metatag": "^2.0",
         "drupal/paragraphs": "^1.18",
@@ -34,7 +33,8 @@
     },
     "require-dev": {
         "drupal/coder": "^8.3",
-        "drupal/core-dev": "^11.0"
+        "drupal/core-dev": "^11.0",
+        "drupal/devel": "^5.3"
     },
     "conflict": {
         "drupal/drupal": "*"
